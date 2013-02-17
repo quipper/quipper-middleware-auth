@@ -1,9 +1,4 @@
 require "quipper/middleware/auth/version"
-require 'omniauth/strategies/google_apps'
-
-use OmniAuth::Builder do
-  provider :google_apps, :store => OpenID::Store::Memcache.new(Dalli::Client.new), :name => 'g', :domain => 'quipper.com'
-end
 
 module Quipper
   module Middleware
