@@ -1,24 +1,32 @@
 # Quipper::Middleware::Auth
 
-TODO: Write a gem description
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'quipper-middleware-auth'
+    gem 'dalli'
+    gem 'omniauth-google-apps'
+    gem 'quipper-middleware-auth', :git => "https://github.com/quipper/quipper-middleware-auth.git"
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install quipper-middleware-auth
-
 ## Usage
 
-TODO: Write usage instructions here
+```
+  require 'openid/store/memcache'
+  require 'omniauth/strategies/google_apps'
+
+  use Rack::Session::Cookie, :secret => 'heflah4b2mhzsoirlh23kjrhkjshfglkq23j5kjbvaoiaksjdh'
+  
+  use OmniAuth::Builder do
+    provider :google_apps, :store => OpenID::Store::Memcache.new(Dalli::Client.new), :name => 'g', :domain => 'quipper.com'
+  end
+
+  use Quipper::Middleware::Auth::GoogleApps, :name => 'g'
+```
 
 ## Contributing
 
