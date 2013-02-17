@@ -4,15 +4,16 @@ module Quipper
   module Middleware
     module Auth
       class GoogleApps
-        def initialize(app)
+        def initialize(app, options={})
           @app = app
+          @options = options
         end
 
         def call(env)
           request = Rack::Request.new(env)
           session = env['rack.session']
 
-          if request.path == '/auth/g/callback'
+          if request.path == "/auth/#{@options[:name]}/callback"
             if auth = request.env['omniauth.auth']
               session[:google_apps_user_id] = auth['info']['email']
               return [302, {'Location' => '/'}, []]
@@ -25,7 +26,7 @@ module Quipper
             return [401, {"Content-Type" => "text/html"}, "login failed"]
           end
 
-          return [302, {'Location' => '/auth/g'}, []] if !session[:google_apps_user_id]
+          return [302, {'Location' => "/auth/#{@options[:name]}"}, []] if !session[:google_apps_user_id]
           @app.call(env)
         end
       end
