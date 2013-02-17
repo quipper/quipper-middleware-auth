@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Quipper::Middleware::Auth::VERSION
   gem.authors       = ["Masatomo Nakano"]
   gem.email         = ["tomo@quipper.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Quipper google apps auth for rack}
+  gem.summary       = %q{Quipper google apps auth for rack}
   gem.homepage      = ""
   gem.license       = "MIT"
 
@@ -20,4 +20,7 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"
+
+  gem.add_dependency "dalli"
+  gem.add_dependency "omniauth-google-apps"
 end
