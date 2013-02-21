@@ -10,6 +10,8 @@ module Quipper
         end
 
         def call(env)
+          return @app.call(env) if @options[:whitelist] && @options[:whitelist].include?(HTTP_X_FORWARDED_FOR)
+
           request = Rack::Request.new(env)
           session = env['rack.session']
 
