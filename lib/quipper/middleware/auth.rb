@@ -15,10 +15,12 @@ module Quipper
           request = Rack::Request.new(env)
           session = env['rack.session']
 
+          p session
           @options[:mounted] ||= ""
 
           if request.path == "#{@options[:mounted]}/auth/#{@options[:name]}/callback"
             if auth = request.env['omniauth.auth']
+              p auth
               session[:google_apps_user_id] = auth['info']['email']
               return [302, {'Location' => "#{@options[:mounted]}/"}, []]
             else
