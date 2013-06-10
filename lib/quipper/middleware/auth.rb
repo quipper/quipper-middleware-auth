@@ -20,7 +20,7 @@ module Quipper
           if request.path == "#{@options[:mounted]}/auth/#{@options[:name]}/callback"
             if auth = request.env['omniauth.auth']
               session[:google_apps_user_id] = auth['info']['email']
-              return [302, {'Location' => '/'}, []]
+              return [302, {'Location' => "#{@options[:mounted]}/"}, []]
             else
               redirect "#{@options[:mounted]}/auth/failure"
             end
