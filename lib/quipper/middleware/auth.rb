@@ -15,20 +15,22 @@ module Quipper
           request = Rack::Request.new(env)
           session = env['rack.session']
 
-          if request.path == "/auth/#{@options[:name]}/callback"
+          @options[:mounted] ||= ""
+
+          if request.path == "#{@options[:mounted]}/auth/#{@options[:name]}/callback"
             if auth = request.env['omniauth.auth']
               session[:google_apps_user_id] = auth['info']['email']
               return [302, {'Location' => '/'}, []]
             else
-              redirect '/auth/failure'
+              redirect "#{@options[:mounted]}/auth/failure"
             end
           end
 
-          if request.path == '/auth/failure'
+          if request.path == "#{@options[:mounted]}/auth/failure"
             return [401, {"Content-Type" => "text/html"}, "login failed"]
           end
 
-          return [302, {'Location' => "/auth/#{@options[:name]}"}, []] if !session[:google_apps_user_id]
+          return [302, {'Location' => "#{@options[:mounted]}/auth/#{@options[:name]}"}, []] if !session[:google_apps_user_id]
           @app.call(env)
         end
       end
