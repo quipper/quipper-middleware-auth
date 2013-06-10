@@ -18,6 +18,8 @@ module Quipper
           p session
           @options[:mounted] ||= ""
 
+          p request.path
+          p request.env
           if request.path == "#{@options[:mounted]}/auth/#{@options[:name]}/callback"
             if auth = request.env['omniauth.auth']
               p auth
